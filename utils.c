@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/07 17:01:22 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:58:07 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_isdigit(int a)
 		return (1);
 	return (0);
 }
-int	ft_atoi(const char *str)
+int	ft_atoll(const char *str)
 {
 	int	i;
 	int	sign;
@@ -89,9 +89,27 @@ bool	input_is_valid(int argc, char **argv)
 		if (!is_valid_number(argv[i]))
 			return(print_error("Incorrect character in arguments\n"));
 		i++;
-		if (ft_atoi(*argv) == 0)
-			return(print_error("Cannot have zero in arguments\n"));
+		if (ft_atoll(*argv) <= 0)
+			return(print_error("Cannot have zero or negative in arguments\n"));
 		argv++;
 	}
 	return(true);
+}
+
+int	initilize_data(int argc,char **argv,t_sim_data *data)
+{
+	// general given data
+	data->num_philosophers =(int)ft_atoll(argv[1]);
+	data->death_time = ft_atoll(argv[2]);
+	data->eating_time = ft_atoll(argv[3]);
+	data->sleeping_time = ft_atoll(argv[4]);
+	if (argc == 6)
+		data->required_meals = (int)ft_atoll(argv[5]);
+	else
+		data->required_meals = -1;
+	
+	
+	//creation of this struct for philos
+	data->num_philosophers 
+		
 }
