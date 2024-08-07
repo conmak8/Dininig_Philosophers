@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:35:27 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/07 15:59:17 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:25:49 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 int	main(int argc, char **argv)
 {
-	//handle argumetns
-	if (argc != 5 && argc != 6)
-		return(print_error("Incorrect number of arguments\n"));
+	//handle arguments num and validation
+	if(!input_is_valid(argc, ++argv))
+		return(EXIT_FAILURE);
+	
+	
+	
+	
+	return(0);
 	
 }
