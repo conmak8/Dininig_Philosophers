@@ -6,11 +6,19 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/07 17:58:07 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:32:17 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long long	get_current_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
 
 int	ft_isdigit(int a)
 {
@@ -98,6 +106,10 @@ bool	input_is_valid(int argc, char **argv)
 
 int	initilize_data(int argc,char **argv,t_sim_data *data)
 {
+	int i;
+
+	i = 0;
+	
 	// general given data
 	data->num_philosophers =(int)ft_atoll(argv[1]);
 	data->death_time = ft_atoll(argv[2]);
@@ -107,9 +119,40 @@ int	initilize_data(int argc,char **argv,t_sim_data *data)
 		data->required_meals = (int)ft_atoll(argv[5]);
 	else
 		data->required_meals = -1;
+		
+	if (!pthread_mutex_init(&data->print_mutex, NULL))
+			return (print_error("Mutex_init Failed\n"), pthread_mutex_destroy(&data->forks[i]), 3);
 	
+	data->stop_simulation = 0;
 	
 	//creation of this struct for philos
-	data->num_philosophers 
+	
+	if (!(data->philosophers = malloc(size_of(t_philosopher) * data->num_philosophers)))
+	{
+		free(data->philosophers);
+		return (print_error("Malloc Philo Failed\n"), 2);
+	}
+	
+	if (!(data->forks = malloc(sizeof(pthread_mutex_t) * sim_data->num_philosophers)))
+	{
+		free(data->forks);
+		return (print_error("Malloc Forks Failed\n"), 2);
+	}
+
+	while (i < data->num_philosophers)
+	{
+		data->philosophers[i].thread_id = 0;
+		data->philosophers[i].id = i + 1;
+		data->philosophers[i].meals_count = 0 ;
+		data->philosophers[i].time_of_death = get_current_time() + data->death_time;
+		data->philosophers[i].sim_data = data;
+
+		data->philosophers[i].left_fork = i;
+		data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
 		
+		if (!pthread_mutex_init(&data->forks[i], NULL))
+			return (print_error("Mutex_init Failed\n"),pthread_mutex_destroy(&data->print_mutex), 3);
+	}
+	return(1)
 }
+
