@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/07 19:32:17 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:41:29 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	initilize_data(int argc,char **argv,t_sim_data *data)
 		return (print_error("Malloc Philo Failed\n"), 2);
 	}
 	
-	if (!(data->forks = malloc(sizeof(pthread_mutex_t) * sim_data->num_philosophers)))
+	if (!(data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philosophers)))
 	{
 		free(data->forks);
 		return (print_error("Malloc Forks Failed\n"), 2);
