@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:35:27 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/08 00:32:59 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/08 02:39:34 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,16 @@ int	main(int argc, char **argv)
 	t_sim_data		data;
 	t_philosopher	*philosophers;
 	
-	printf("prin tin is valid\n");
 
 	printf("Starting simulation with %d philosophers...!!!!\n", argc > 1 ? atoi(argv[1]) : 0);
-	printf("aaaaaaaaaaa\n");
 
 	// handle arguments num and validation
-	printf("Eiserxomai valid_data\n");
 	if (!input_is_valid(argc, argv)) {
 		printf("Invalid input\n");
 		return(EXIT_FAILURE);
 	}
 	
 	// initialize data
-	printf("Eiserxomai initialize_data\n");
 	if (!initialize_data(argc, argv, &data)) 
 	{
 		printf("Initialization failed\n");

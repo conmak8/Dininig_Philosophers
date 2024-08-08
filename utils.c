@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/08 00:52:55 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/08 03:18:50 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,19 +114,21 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
     data->num_philosophers =(int)ft_atoll(argv[1]);
     data->death_time = ft_atoll(argv[2]);
     data->eating_time = ft_atoll(argv[3]);
-    data->sleeping_time = ft_atoll(argv[4]);;
+    data->sleeping_time = ft_atoll(argv[4]);
+	
     if (argc == 6)
         data->required_meals = (int)ft_atoll(argv[5]);
     else
         data->required_meals = -1;
-        
+    
     if (pthread_mutex_init(&data->print_mutex, NULL) != 0) {
         printf("Mutex initialization failed for print_mutex\n");
         return (print_error("Mutex_init Failed at print_mutex\n"), pthread_mutex_destroy(&data->forks[i]), 3);
     }
     
     data->stop_simulation = 0;
-    
+    data->start_time = get_current_time();
+	
     //creation of this struct for philos
     
     if (!(data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers)))
@@ -140,9 +142,7 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
         free(data->forks);
         return (print_error("Malloc Forks Failed\n"), 2);
     }
-	printf("PRIN LOUPA\n");
-	printf("num philo %d\n", data->num_philosophers);
-	printf("i %d\n", i);
+
     while (i < data->num_philosophers)
     {
         data->philosophers[i].thread_id = 0;
@@ -165,10 +165,8 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
 
 void    log_status(t_philosopher *philosopher, char *status)
 {
-	int now = get_current_time() - philosopher->sim_data->start_time;
-	printf("%d",now); 
     pthread_mutex_lock(&philosopher->sim_data->print_mutex);
-    printf("%lld %d %s\n", get_current_time() - philosopher->sim_data->start_time, philosopher->id, status);
+    printf("%lld %d %s\n", (get_current_time() - philosopher->sim_data->start_time), philosopher->id, status);
     pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
 }
 
