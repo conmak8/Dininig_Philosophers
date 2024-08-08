@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Compilation script for Dining Philosophers problem
-gcc main.c routines.c threads.c utils.c -lpthread
+gcc main.c routines.c threads.c utils.c -lpthread -o philo
 
 # Check if the compilation was successful
 if [ $? -eq 0 ]; then

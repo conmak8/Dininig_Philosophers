@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:35:27 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/08 02:39:34 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:49:46 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv)
 {
 	t_sim_data		data;
-	t_philosopher	*philosophers;
+	// t_philosopher	*philosophers;
 	
 
 	printf("Starting simulation with %d philosophers...!!!!\n", argc > 1 ? atoi(argv[1]) : 0);
@@ -33,9 +33,9 @@ int	main(int argc, char **argv)
 		return(EXIT_FAILURE);
 	}
 
-	philosophers = data.philosophers;
+	// philosophers = data.philosophers;
 	
-	if (!launch_threads(&data, philosophers)) {
+	if (!launch_threads(&data, data.philosophers)) {
 		printf("Failed to launch threads\n");
 		return (EXIT_FAILURE);
 	}

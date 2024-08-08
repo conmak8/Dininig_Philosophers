@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/08 03:18:50 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:08:23 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
     
     if (pthread_mutex_init(&data->print_mutex, NULL) != 0) {
         printf("Mutex initialization failed for print_mutex\n");
-        return (print_error("Mutex_init Failed at print_mutex\n"), pthread_mutex_destroy(&data->forks[i]), 3);
+        return (print_error("Mutex_init Failed at print_mutex\n"), pthread_mutex_destroy(&data->forks[i]), 3); //--------------pthread_mutex_destroy(&data->forks[i]) i don't need thiss
     }
     
     data->stop_simulation = 0;
@@ -131,15 +131,16 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
 	
     //creation of this struct for philos
     
-    if (!(data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers)))
+    if (!(data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers))) //it wil not be normed okay
     {
-        free(data->philosophers);
-        return (print_error("Malloc Philo Failed\n"), 2);
+        
+		return (print_error("Malloc Philo Failed\n"), 2);
     }
     
     if (!(data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philosophers)))
     {
-        free(data->forks);
+        free(data->philosophers);
+		pthread_mutex_destroy(&data->print_mutex);
         return (print_error("Malloc Forks Failed\n"), 2);
     }
 
@@ -155,8 +156,12 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
         data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
         
         if (pthread_mutex_init(&data->forks[i], NULL) != 0) {
+			// technically i should destroy all the mutexes of the previous philos
+			free(data->philosophers);
+			free(data->forks);
+			pthread_mutex_destroy(&data->print_mutex);
             printf("Mutex initialization failed for fork %d\n", i);
-            return (print_error("Mutex_init Failed at forks\n"), pthread_mutex_destroy(&data->print_mutex), 3);
+            return (print_error("Mutex_init Failed at forks\n"), 3);
         }
 		i++;
     }
