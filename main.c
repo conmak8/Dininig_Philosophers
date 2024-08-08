@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:35:27 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/08 18:49:46 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/09 00:24:28 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int argc, char **argv)
 		printf("Invalid input\n");
 		return(EXIT_FAILURE);
 	}
-	
 	// initialize data
 	if (!initialize_data(argc, argv, &data)) 
 	{
@@ -39,7 +38,7 @@ int	main(int argc, char **argv)
 		printf("Failed to launch threads\n");
 		return (EXIT_FAILURE);
 	}
-
+	
 	printf("Simulation completed successfully\n");
 	return(0);
 }

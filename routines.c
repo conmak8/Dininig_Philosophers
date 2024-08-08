@@ -22,7 +22,7 @@ static void	philosopher_eat(t_philosopher *philosopher)
 	philosopher->last_meal_time = get_current_time() + philosopher->sim_data->death_time;
 	// pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
 	log_status(philosopher, "is eating");
-	usleep(philosopher->sim_data->eating_time * 1000);  // grapse mia diki sou akriveia!!!
+	usleep(philosopher->sim_data->eating_time * 1000);  // grapse mia diki sou akriveia!!!---------------------
 	pthread_mutex_unlock(&philosopher->sim_data->forks[philosopher->right_fork]);
 	pthread_mutex_unlock(&philosopher->sim_data->forks[philosopher->left_fork]);
 	if (philosopher->sim_data->required_meals > 0) // pou ta auxanw...????  kai pote stamataw ??
@@ -46,6 +46,7 @@ void	*philosopher_routine(void *arg)
 		log_status(philosopher, "is thinking");
 		usleep(philosopher->sim_data->eating_time * 500);
 	}
+	
 	while (!philosopher->sim_data->stop_simulation) //if i dd supervisor this will be data race.
 	{
 		philosopher_eat(philosopher);

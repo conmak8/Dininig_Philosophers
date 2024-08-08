@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/08 00:21:36 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/09 00:48:23 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ void	log_status(t_philosopher *philosopher, char *status);
 
 int	launch_threads(t_sim_data *data, t_philosopher *philosophers);
 long long	get_current_time(void);
+void	*monitor_philosophers(void *arg);
 
 #endif // PHILO_H
