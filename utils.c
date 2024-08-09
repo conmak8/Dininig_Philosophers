@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/09 15:40:50 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:17:30 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,17 @@ int	initialize_data(int argc, char **argv, t_sim_data *data)
 	}
 	data->stop_simulation = 0;
 	data->start_time = get_current_time();
+	
+	init_philoshopers(argc, argv, data);
+	
+	return (1);
+}
+
+int	init_philoshopers(int argc, char **argv, t_sim_data *data)
+{
+	int	i;
+
+	i = 0;
 	data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers);
 	if (!data->philosophers) //it wil not be normed okay
 		return (print_error("Malloc Philo Failed\n"), 2);
@@ -80,23 +91,29 @@ int	initialize_data(int argc, char **argv, t_sim_data *data)
 	}
 	while (i < data->num_philosophers)
 	{
-		data->philosophers[i].thread_id = 0;
-		data->philosophers[i].id = i + 1;
-		data->philosophers[i].meals_count = 0 ;
-		data->philosophers[i].time_of_death = get_current_time() + data->death_time;
-		data->philosophers[i].sim_data = data;
-		data->philosophers[i].left_fork = i;
-		data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
-		data->philosophers[i].last_meal_time = data->start_time;
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-		{
-			free(data->philosophers);
-			free(data->forks);
-			pthread_mutex_destroy(&data->print_mutex);
-			printf("Mutex initialization failed for fork %d\n", i);
-			return (print_error("Mutex_init Failed at forks\n"), 3);
-		}
+		init_philo_in(i, data);
 		i++;
 	}
-	return (1);
+	return (0);
+}
+
+int	init_philo_in(int i, t_sim_data *data)
+{
+	data->philosophers[i].thread_id = 0;
+	data->philosophers[i].id = i + 1;
+	data->philosophers[i].meals_count = 0 ;
+	data->philosophers[i].time_of_death = get_current_time() + data->death_time;
+	data->philosophers[i].sim_data = data;
+	data->philosophers[i].left_fork = i;
+	data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
+	data->philosophers[i].last_meal_time = data->start_time;
+	if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+	{
+		free(data->philosophers);
+		free(data->forks);
+		pthread_mutex_destroy(&data->print_mutex);
+		printf("Mutex initialization failed for fork %d\n", i);
+		return (print_error("Mutex_init Failed at forks\n"), 3);
+	}
+	return (0);
 }

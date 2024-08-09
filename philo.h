@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/09 00:48:23 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:16:53 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@
 # include <sys/time.h>
 
 typedef struct s_philosopher t_philosopher ;
-
-typedef enum e_state {
-    THINKING,
-    EATING,
-    SLEEPING
-} t_state;
 
 typedef struct s_sim_data
 {
@@ -59,38 +53,6 @@ typedef struct s_philosopher
 	long long		last_meal_time;
 }	t_philosopher;
 
-// typedef struct s_philo
-// {
-// 	pthread_t		thread;
-// 	int				id;
-// 	long long		t_of_death;
-// 	long			times_ate;
-// 	bool			is_done;
-// 	t_data			*data;
-// 	pthread_mutex_t	r_fork;
-// 	pthread_mutex_t	*l_fork;
-// 	pthread_mutex_t	lock_eating;
-// }	t_philo;
-
-
-
-// typedef struct s_data
-// {
-// 	int				num_philos;
-// 	long long		t_die;
-// 	long long		t_eat;
-// 	long long		t_sleep;
-// 	long			notepme;
-	
-// 	t_philo			*philo;
-// 	long long		start_time;
-// 	bool			any_dead;
-// 	int				philos_done;
-// 	pthread_mutex_t	lock_dead;
-// 	pthread_mutex_t	lock_done;
-// 	pthread_mutex_t	lock_print;
-// }	t_data;
-
 
 /* -------------------------- utils.c ------------------------- */
 
@@ -109,5 +71,10 @@ void	log_status(t_philosopher *philosopher, char *status);
 int	launch_threads(t_sim_data *data, t_philosopher *philosophers);
 long long	get_current_time(void);
 void	*monitor_philosophers(void *arg);
+
+int	init_philoshopers(int argc, char **argv, t_sim_data *data);
+
+int	init_philo_in(int i, t_sim_data *data);
+
 
 #endif // PHILO_H
