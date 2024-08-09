@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/08 19:08:23 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/09 02:46:08 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,9 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
     data->stop_simulation = 0;
     data->start_time = get_current_time();
 	
+	
+	
+	
     //creation of this struct for philos
     
     if (!(data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers))) //it wil not be normed okay
@@ -154,6 +157,8 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
 
         data->philosophers[i].left_fork = i;
         data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
+// ayto prosthesa
+		data->philosophers[i].last_meal_time = data->start_time;  // Initialize to start_time
         
         if (pthread_mutex_init(&data->forks[i], NULL) != 0) {
 			// technically i should destroy all the mutexes of the previous philos
@@ -170,9 +175,12 @@ int initialize_data(int argc,char **argv,t_sim_data *data)
 
 void    log_status(t_philosopher *philosopher, char *status)
 {
-    pthread_mutex_lock(&philosopher->sim_data->print_mutex);
-    printf("%lld %d %s\n", (get_current_time() - philosopher->sim_data->start_time), philosopher->id, status);
-    pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
+	if (!philosopher->sim_data->stop_simulation)
+	{
+		pthread_mutex_lock(&philosopher->sim_data->print_mutex);
+		printf("%lld %d %s\n", (get_current_time() - philosopher->sim_data->start_time), philosopher->id, status);
+		pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
+	}
 }
 
 

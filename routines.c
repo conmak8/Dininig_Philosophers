@@ -1,6 +1,6 @@
 #include "philo.h"
 
-#include "philo.h"
+
 
 static void	single_philosopher_routine(t_philosopher *philosopher)
 {
@@ -19,7 +19,8 @@ static void	philosopher_eat(t_philosopher *philosopher)
 	pthread_mutex_lock(&philosopher->sim_data->forks[philosopher->right_fork]);
 	log_status(philosopher, "has taken a fork");
 	// pthread_mutex_lock(&philosopher->sim_data->print_mutex);
-	philosopher->last_meal_time = get_current_time() + philosopher->sim_data->death_time;
+	// philosopher->last_meal_time = get_current_time() + philosopher->sim_data->death_time;
+	philosopher->last_meal_time = get_current_time();
 	// pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
 	log_status(philosopher, "is eating");
 	usleep(philosopher->sim_data->eating_time * 1000);  // grapse mia diki sou akriveia!!!---------------------

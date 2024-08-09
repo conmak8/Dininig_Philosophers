@@ -6,13 +6,54 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:02:34 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/09 00:56:14 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/09 02:25:28 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+
 int	launch_threads(t_sim_data *data, t_philosopher *philosophers)
+{
+	int i;
+	pthread_t monitor_thread;
+
+	printf("Creating threads...\n");
+
+	// Launch the philosopher threads
+	i = 0;
+	while (i < data->num_philosophers)
+	{
+		if (pthread_create(&philosophers[i].thread_id, NULL, &philosopher_routine, &philosophers[i]) != 0) {
+			return (print_error("Failed to create philosopher thread"), 5);
+		}
+		i++;
+	}
+
+	// Launch a single monitor thread
+	if (pthread_create(&monitor_thread, NULL, &monitor_philosophers, data) != 0) {
+		return (print_error("Failed to create monitor thread"), 6);
+	}
+
+	// Join the philosopher threads
+	i = 0;
+	while (i < data->num_philosophers)
+	{
+		if (pthread_join(philosophers[i].thread_id, NULL) != 0) {
+			return (print_error("Failed to join philosopher thread"), 7);
+		}
+		i++;
+	}
+
+	// Join the monitor thread
+	if (pthread_join(monitor_thread, NULL) != 0) {
+		return (print_error("Failed to join monitor thread"), 8);
+	}
+
+	return (1);
+}
+
+/* int	launch_threads(t_sim_data *data, t_philosopher *philosophers)
 {
     int i;
     pthread_t monitor[data->num_philosophers];
@@ -46,4 +87,4 @@ int	launch_threads(t_sim_data *data, t_philosopher *philosophers)
         i++;
     }
     return (1);
-}
+} */
