@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/09 16:16:53 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/10 02:28:51 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	launch_threads(t_sim_data *data, t_philosopher *philosophers);
 long long	get_current_time(void);
 void	*monitor_philosophers(void *arg);
 
-int	init_philoshopers(int argc, char **argv, t_sim_data *data);
+int	init_philoshopers(t_sim_data *data);
 
 int	init_philo_in(int i, t_sim_data *data);
 

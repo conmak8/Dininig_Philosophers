@@ -6,22 +6,14 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/09 16:17:30 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/10 02:29:11 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	print_error(char *msg)
-{
-	write(STDERR_FILENO, msg, ft_strlen(msg));
-	return (EXIT_FAILURE);
-}
-
 bool	input_is_valid(int argc, char **argv)
 {
-	size_t	i;
-
 	if (argc != 5 && argc != 6)
 		return (print_error("Incorrect number of arguments\n"), 0);
 	++argv;
@@ -64,23 +56,22 @@ int	initialize_data(int argc, char **argv, t_sim_data *data)
 	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
 	{
 		printf("Mutex initialization failed for print_mutex\n");
-		return (print_error("Mutex_init Failed at print_mutex\n"), pthread_mutex_destroy(&data->forks[i]), 3); //--------------pthread_mutex_destroy(&data->forks[i]) i don't need thiss
+		return (print_error("Mutex_init Failed at print_mutex\n"), \
+		pthread_mutex_destroy(&data->forks[i]), 3); //--------------pthread_mutex_destroy(&data->forks[i]) i don't need thiss
 	}
 	data->stop_simulation = 0;
 	data->start_time = get_current_time();
-	
-	init_philoshopers(argc, argv, data);
-	
+	init_philoshopers(data);
 	return (1);
 }
 
-int	init_philoshopers(int argc, char **argv, t_sim_data *data)
+int	init_philoshopers(t_sim_data *data)
 {
 	int	i;
 
 	i = 0;
 	data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers);
-	if (!data->philosophers) //it wil not be normed okay
+	if (!data->philosophers)
 		return (print_error("Malloc Philo Failed\n"), 2);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philosophers);
 	if (!data->forks)
