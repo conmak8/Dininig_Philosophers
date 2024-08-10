@@ -1,2 +1,5 @@
 # Specific files
 compile.sh
+
+# Specific folder
+objs/
