@@ -1,5 +1,6 @@
 # Specific files
 compile.sh
+philo
 
 # Specific folder
 objs/

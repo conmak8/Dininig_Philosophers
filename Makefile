@@ -6,7 +6,7 @@
 #    By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 16:25:24 by mevangel          #+#    #+#              #
-#    Updated: 2024/08/10 04:42:10 by cmakario         ###   ########.fr        #
+#    Updated: 2024/08/10 05:46:22 by cmakario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,3 +50,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+#docker run -d -p 80:80 docker/getting-started
