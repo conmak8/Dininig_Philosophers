@@ -6,11 +6,11 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:13:30 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/10 02:14:46 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/10 04:06:48 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../includes/philo.h"
 
 void	*monitor_philosophers(void *arg)
 {

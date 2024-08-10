@@ -6,13 +6,13 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:42:24 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/09 13:48:50 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/10 04:06:43 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../includes/philo.h"
 
-static void	single_philosopher_routine(t_philosopher *philosopher)
+void	single_philosopher_routine(t_philosopher *philosopher)
 {
 	pthread_mutex_lock \
 	(&philosopher->sim_data->forks[philosopher->right_fork]);
@@ -24,7 +24,7 @@ static void	single_philosopher_routine(t_philosopher *philosopher)
 	(&philosopher->sim_data->forks[philosopher->right_fork]);
 }
 
-static void	philosopher_eat(t_philosopher *philosopher)
+void	philosopher_eat(t_philosopher *philosopher)
 {
 	pthread_mutex_lock(&philosopher->sim_data->forks[philosopher->left_fork]);
 	log_status(philosopher, "has taken a fork");

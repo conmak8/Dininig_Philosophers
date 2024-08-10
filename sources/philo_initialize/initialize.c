@@ -1,44 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/10 02:29:11 by cmakario         ###   ########.fr       */
+/*   Created: 2024/08/10 03:52:40 by cmakario          #+#    #+#             */
+/*   Updated: 2024/08/10 04:00:28 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-bool	input_is_valid(int argc, char **argv)
-{
-	if (argc != 5 && argc != 6)
-		return (print_error("Incorrect number of arguments\n"), 0);
-	++argv;
-	while (*argv)
-	{
-		if (!is_valid_number(*argv))
-			return (print_error("Incorrect character in arguments\n"), 0);
-		if (ft_atoll(*argv) <= 0)
-			return (print_error("Cannot have zero or \
-			negative in arguments\n"), 0);
-		argv++;
-	}
-	return (true);
-}
-
-void	log_status(t_philosopher *philosopher, char *status)
-{
-	if (!philosopher->sim_data->stop_simulation)
-	{
-		pthread_mutex_lock(&philosopher->sim_data->print_mutex);
-		printf("%lld %d %s\n", (get_current_time() - \
-		philosopher->sim_data->start_time), philosopher->id, status);
-		pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
-	}
-}
+#include "../../includes/philo.h"
 
 int	initialize_data(int argc, char **argv, t_sim_data *data)
 {

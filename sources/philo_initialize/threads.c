@@ -6,11 +6,11 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:02:34 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/10 02:06:52 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/10 04:00:31 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../../includes/philo.h"
 
 int	launch_threads(t_sim_data *data, t_philosopher *philosophers)
 {
@@ -39,8 +39,4 @@ int	launch_threads(t_sim_data *data, t_philosopher *philosophers)
 	return (1);
 }
 
-int	print_error(char *msg)
-{
-	write(STDERR_FILENO, msg, ft_strlen(msg));
-	return (EXIT_FAILURE);
-}
+

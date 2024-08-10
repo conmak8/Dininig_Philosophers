@@ -6,14 +6,12 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:35:27 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/09 13:40:47 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/10 04:00:58 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
-// handle arguments num and validation
-// initialize data
 int	main(int argc, char **argv)
 {
 	t_sim_data	data;
