@@ -1,6 +1,7 @@
 # Specific files
 compile.sh
 philo
+*.log 
 
 # Specific folder
 objs/

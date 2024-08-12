@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/10 02:28:51 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:01:18 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_sim_data
 	t_philosopher	*philosophers;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
-
+	pthread_mutex_t last_meal_mutex;
+	pthread_mutex_t stop_mutex;
 	int				stop_simulation;
 	long long		start_time;
 }					t_sim_data;
@@ -49,7 +50,6 @@ typedef struct s_philosopher
 	int				right_fork;
 	
 	struct s_sim_data	*sim_data;
-	
 	long long		last_meal_time;
 }	t_philosopher;
 
@@ -75,6 +75,7 @@ void	*monitor_philosophers(void *arg);
 int	init_philoshopers(t_sim_data *data);
 
 int	init_philo_in(int i, t_sim_data *data);
+void	ft_msleep(long long msec);
 
 
 #endif // PHILO_H

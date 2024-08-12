@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/10 04:00:39 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:18:45 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,24 @@ int	print_error(char *msg)
 
 void	log_status(t_philosopher *philosopher, char *status)
 {
+	pthread_mutex_lock(&philosopher->sim_data->stop_mutex);
 	if (!philosopher->sim_data->stop_simulation)
 	{
+		pthread_mutex_unlock(&philosopher->sim_data->stop_mutex);
 		pthread_mutex_lock(&philosopher->sim_data->print_mutex);
 		printf("%lld %d %s\n", (get_current_time() - \
 		philosopher->sim_data->start_time), philosopher->id, status);
 		pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
+		return;
 	}
+	pthread_mutex_unlock(&philosopher->sim_data->stop_mutex);
+}
+
+void	ft_msleep(long long msec)
+{
+	long long	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < msec)
+		usleep(200);
 }

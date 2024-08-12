@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 03:52:40 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/10 04:00:28 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:01:38 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	initialize_data(int argc, char **argv, t_sim_data *data)
 		data->required_meals = (int)ft_atoll(argv[5]);
 	else
 		data->required_meals = -1;
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0 || \
+		pthread_mutex_init(&data->last_meal_mutex, NULL) != 0 || \
+		pthread_mutex_init(&data->stop_mutex, NULL) != 0)
 	{
 		printf("Mutex initialization failed for print_mutex\n");
 		return (print_error("Mutex_init Failed at print_mutex\n"), \
