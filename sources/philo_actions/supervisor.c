@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:13:30 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/12 20:36:21 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/12 22:42:16 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	*monitor_philosophers(void *arg)
 				> data->death_time)
 			{
 				pthread_mutex_unlock(&data->last_meal_mutex);
-				// printf("%lld %d %s\n", (get_current_time() - data->start_time), data->philosophers[i].id, "died");
 				log_status(data->philosophers, "died");
+				// printf("%lld %d %s\n", (get_current_time() - data->start_time), data->philosophers[i].id, "died");
 				pthread_mutex_lock(&data->stop_mutex);
 				data->stop_simulation = 1;
 				pthread_mutex_unlock(&data->stop_mutex);

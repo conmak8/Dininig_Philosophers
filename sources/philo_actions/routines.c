@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:42:24 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/12 20:35:15 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/12 23:00:09 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	single_philosopher_routine(t_philosopher *philosopher)
 	pthread_mutex_lock \
 	(&philosopher->sim_data->forks[philosopher->right_fork]);
 	log_status(philosopher, "has taken a fork");
-	pthread_mutex_lock(&philosopher->sim_data->print_mutex);
+	
+	pthread_mutex_lock(&philosopher->sim_data->last_meal_mutex);
+	
 	philosopher->last_meal_time = get_current_time();
-	pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
+	
+	pthread_mutex_unlock(&philosopher->sim_data->last_meal_mutex);
 	pthread_mutex_unlock \
 	(&philosopher->sim_data->forks[philosopher->right_fork]);
 }
@@ -38,8 +41,8 @@ void philosopher_eat(t_philosopher *philosopher) {
         log_status(philosopher, "has taken a fork");
         pthread_mutex_lock(&philosopher->sim_data->forks[left_fork]);
     }
-
     log_status(philosopher, "has taken a fork");
+	
     pthread_mutex_lock(&philosopher->sim_data->last_meal_mutex);
     philosopher->last_meal_time = get_current_time();
     pthread_mutex_unlock(&philosopher->sim_data->last_meal_mutex);
@@ -71,15 +74,14 @@ void	*philosopher_routine(void *arg)
 		log_status(philosopher, "is thinking");
 		ft_msleep(philosopher->sim_data->eating_time);
 	}
-	
-	while (true)  													//if i dd supervisor this will be data race.		
+	while (true)
 	{
 		pthread_mutex_lock(&philosopher->sim_data->stop_mutex);
 		if (philosopher->sim_data->stop_simulation)
 			return (pthread_mutex_unlock(&philosopher->sim_data->stop_mutex), NULL);
 		pthread_mutex_unlock(&philosopher->sim_data->stop_mutex);
 		if (philosopher->meals_count >= philosopher->sim_data->required_meals && \
-			philosopher->sim_data->required_meals != 0)
+			philosopher->sim_data->required_meals != -1)
 			break;
 		philosopher_eat(philosopher);
 		log_status(philosopher, "is sleeping");

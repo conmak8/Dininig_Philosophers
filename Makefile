@@ -6,14 +6,14 @@
 #    By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 16:25:24 by mevangel          #+#    #+#              #
-#    Updated: 2024/08/12 19:38:07 by cmakario         ###   ########.fr        #
+#    Updated: 2024/08/12 21:48:23 by cmakario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g 
 
 GREEN	=	\033[0;32m
 CYAN	=	\033[0;36m
