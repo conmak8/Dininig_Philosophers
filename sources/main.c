@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:35:27 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/10 13:09:11 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/13 21:09:13 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	main(int argc, char **argv)
 		printf("Failed to launch threads\n");
 		return (EXIT_FAILURE);
 	}
-	free(data.philosophers);
-	free(data.forks);
+	ft_cleanup(&data);
 	return (0);
 }
