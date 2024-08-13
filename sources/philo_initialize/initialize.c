@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 03:52:40 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/13 22:41:57 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 01:13:08 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	init_philo_in(int i, t_sim_data *data)
 	data->philosophers[i].thread_id = 0;
 	data->philosophers[i].id = i + 1;
 	data->philosophers[i].meals_count = 0 ;
-	data->philosophers[i].is_eating = false;
+	// data->philosophers[i].is_eating = false;
 	data->philosophers[i].sim_data = data;
 	data->philosophers[i].left_fork = i;
 	data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;

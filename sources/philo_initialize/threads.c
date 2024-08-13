@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:02:34 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/13 21:15:09 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 01:01:14 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	launch_threads(t_sim_data *data, t_philosopher *philosophers)
 	}
 	if (pthread_create(&monitor_thread, NULL, &monitor_philosophers, data) != 0)
 		return (print_error("Failed to create monitor thread"), 0);
+	// data = philosophers->sim_data;
 	if (pthread_join(monitor_thread, NULL) != 0)
 		return (print_error("Failed to join monitor thread"), 0);
 	i = 0;
