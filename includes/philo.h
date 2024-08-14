@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 14:43:14 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:03:03 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_philosopher
 	int				meals_count;
 	int				left_fork;
 	int				right_fork;
+	int				finished;
 	
 	long long		last_meal_time;
 	struct s_sim_data	*sim_data;

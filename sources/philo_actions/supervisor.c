@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:13:30 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 14:44:05 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:03:50 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,12 @@ void	*monitor_philosophers(void *arg)
 			if ((data->required_meals != -1))
 			{
 				pthread_mutex_lock(&data->last_meal_mutex);
-				if (data->philosophers[i].meals_count == data->required_meals)
+				if (data->philosophers[i].meals_count == data->required_meals && !data->philosophers[i].finished)
+				{
+					data->philosophers[i].finished = 1;
 					philos_finished_meals++;
+					// printf("")
+				}
 				pthread_mutex_unlock(&data->last_meal_mutex);
 				// total_meals += data->philosophers[i].meals_count;
 				// printf(" --- num philo = %d \n", data->num_philosophers);
