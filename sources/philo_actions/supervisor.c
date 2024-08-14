@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:13:30 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 20:03:50 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 21:52:23 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*monitor_philosophers(void *arg)
 	philos_finished_meals = 0;
 	long long last_meal;
 
-	// usleep(5000);
+	usleep(5000);
 	// while (!stop_simulation(data))
 	while (true)
 	{

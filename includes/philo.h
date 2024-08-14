@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 20:03:03 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 23:25:46 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef struct s_sim_data
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t stop_mutex;
 	pthread_mutex_t last_meal_mutex;
+	
+	pthread_mutex_t	start_mutex;
+	int				ready_threads;
 	
 	int				stop_simulation;
 	long long		start_time;

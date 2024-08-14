@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 03:52:40 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 20:04:13 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 23:31:13 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	initialize_data(int argc, char **argv, t_sim_data *data)
 		data->required_meals = (int)ft_atoll(argv[5]);
 	else
 		data->required_meals = -1;
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0 || pthread_mutex_init(&data->stop_mutex, NULL) != 0 || pthread_mutex_init(&data->last_meal_mutex, NULL) != 0) 
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0 || pthread_mutex_init(&data->stop_mutex, NULL) != 0 \
+	|| pthread_mutex_init(&data->last_meal_mutex, NULL) != 0 || pthread_mutex_init(&data->start_mutex, NULL) != 0) 
 	{
 		return (printf("Mutex initialization failed\n"), 0); //--------------pthread_mutex_destroy(&data->forks[i]) i don't need thiss
 	}
@@ -30,6 +31,7 @@ int	initialize_data(int argc, char **argv, t_sim_data *data)
 	data->start_time = get_current_time();
 	if (!init_philoshopers(data))
 		return (0);
+	data->ready_threads = 0;
 	return (1);
 }
 
@@ -62,13 +64,14 @@ int	init_philo_in(int i, t_sim_data *data)
 	// data->philosophers[i].is_eating = false;
 	if (data->philosophers[i].id % 2 == 0)
 	{
-		data->philosophers[i].left_fork = i;
-		data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
+	// {right_fork
+		data->philosophers[i].right_fork = i;
+		data->philosophers[i].left_fork  = (i + 1) % data->num_philosophers;
 	}
 	else
 	{
-		data->philosophers[i].right_fork = i;
-		data->philosophers[i].left_fork = (i + 1) % data->num_philosophers;
+		data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
+		data->philosophers[i].left_fork = i;
 	}
 	// data->philosophers[i].last_meal_time = get_current_time() + data->death_time;
 	data->philosophers[i].last_meal_time = get_current_time();

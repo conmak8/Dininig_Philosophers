@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:42:24 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 16:42:18 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/15 00:46:46 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void philosopher_eat(t_philosopher *philosopher) {
     int right_fork = philosopher->right_fork;
 	
     // Ensure forks are locked in a consistent order
-    // if (left_fork < right_fork) {
+    if (left_fork < right_fork) {
     // if (philosopher->id % 2 != 0) {
         pthread_mutex_lock(&philosopher->sim_data->forks[left_fork]);
         log_status(philosopher, "has taken a fork");
         pthread_mutex_lock(&philosopher->sim_data->forks[right_fork]);
-    // } else {
-    //     pthread_mutex_lock(&philosopher->sim_data->forks[right_fork]);
-    //     log_status(philosopher, "has taken a fork");
-    //     pthread_mutex_lock(&philosopher->sim_data->forks[left_fork]);
-    // }
+    } else {
+        pthread_mutex_lock(&philosopher->sim_data->forks[right_fork]);
+        log_status(philosopher, "has taken a fork");
+        pthread_mutex_lock(&philosopher->sim_data->forks[left_fork]);
+    }
 	// philosopher->is_eating = true;
     log_status(philosopher, "has taken a fork");
 	
@@ -52,14 +52,14 @@ void philosopher_eat(t_philosopher *philosopher) {
     ft_msleep(philosopher->sim_data->eating_time);
 
     // Unlock in reverse order of locking
-    // if (left_fork < right_fork) {
+    if (left_fork < right_fork) {
 	// if (philosopher->id % 2 != 0) {
         pthread_mutex_unlock(&philosopher->sim_data->forks[right_fork]);
         pthread_mutex_unlock(&philosopher->sim_data->forks[left_fork]);
-    // } else {
-    //     pthread_mutex_unlock(&philosopher->sim_data->forks[right_fork]);
-    //     pthread_mutex_unlock(&philosopher->sim_data->forks[left_fork]);
-    // }
+    } else {
+        pthread_mutex_unlock(&philosopher->sim_data->forks[right_fork]);
+        pthread_mutex_unlock(&philosopher->sim_data->forks[left_fork]);
+    }
 	// philosopher->is_eating = false;
 
 	
@@ -125,8 +125,28 @@ void	*philosopher_routine(void *arg)
 
 	philosopher = (t_philosopher *)arg;
 	
+	pthread_mutex_lock(&philosopher->sim_data->start_mutex);
+	philosopher->sim_data->ready_threads++;
+	pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
+	
+	while (1)
+	{
+		pthread_mutex_lock(&philosopher->sim_data->start_mutex);
+		if (philosopher->sim_data->ready_threads == philosopher->sim_data->num_philosophers)
+		{
+			pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
+			break;
+		}
+		pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
+		usleep(100);
+	}
+	// if (philosopher->id == philosopher->sim_data->num_philosophers)
+	// 	pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
+		
+	// pthread_mutex_lock(&philosopher->sim_data->start_mutex);
 	if (philosopher->sim_data->num_philosophers == 1)
 		return (single_philosopher_routine(philosopher), NULL);
+		
 
 	if (philosopher->id % 2 != 0)
 	{
@@ -151,6 +171,9 @@ void	*philosopher_routine(void *arg)
 		if (stop_simulation(philosopher->sim_data))
 			break ;
 		log_status(philosopher, "is thinking");
+		if(philosopher->sim_data->num_philosophers % 2 != 0)
+			ft_msleep(2 * philosopher->sim_data->eating_time - philosopher->sim_data->sleeping_time);
 	}
+	
 	return (NULL);
 }
