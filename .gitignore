@@ -1,7 +1,12 @@
 # Specific files
 compile.sh
 philo
-*.log 
+*.log
+*.txt
 
 # Specific folder
 objs/
+
+.DS_Store
+.vscode/settings.json
+out.txt
