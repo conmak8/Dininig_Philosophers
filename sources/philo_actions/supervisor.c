@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:13:30 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 01:26:11 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:44:05 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	*monitor_philosophers(void *arg)
 			
 			if ((data->required_meals != -1))
 			{
-				pthread_mutex_lock(&data->philosophers[i].last_meal_mutex);
+				pthread_mutex_lock(&data->last_meal_mutex);
 				if (data->philosophers[i].meals_count == data->required_meals)
 					philos_finished_meals++;
-				pthread_mutex_unlock(&data->philosophers[i].last_meal_mutex);
+				pthread_mutex_unlock(&data->last_meal_mutex);
 				// total_meals += data->philosophers[i].meals_count;
 				// printf(" --- num philo = %d \n", data->num_philosophers);
 				// printf(" --- req meals = %d \n", data->required_meals);
@@ -51,9 +51,9 @@ void	*monitor_philosophers(void *arg)
 					return (NULL);
 				}
 			}
-			pthread_mutex_lock(&data->philosophers[i].last_meal_mutex);
+			pthread_mutex_lock(&data->last_meal_mutex);
 			last_meal = data->philosophers[i].last_meal_time;
-			pthread_mutex_unlock(&data->philosophers[i].last_meal_mutex);
+			pthread_mutex_unlock(&data->last_meal_mutex);
 			
 			if ((get_current_time() - last_meal) > data->death_time)
 			// if (!data->philosophers[i].is_eating && (get_current_time() >= data->death_time))

@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/13 22:40:21 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:43:14 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ typedef struct s_sim_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t stop_mutex;
-	// pthread_mutex_t last_meal_mutex;
+	pthread_mutex_t last_meal_mutex;
+	
 	int				stop_simulation;
 	long long		start_time;
 }					t_sim_data;
@@ -44,14 +45,16 @@ typedef struct s_philosopher
 {
 	pthread_t		thread_id;
 	int				id;
-	bool			is_eating;
+	// bool			is_eating;
 	int				meals_count;
 	int				left_fork;
 	int				right_fork;
 	
-	struct s_sim_data	*sim_data;
 	long long		last_meal_time;
-	pthread_mutex_t last_meal_mutex;
+	struct s_sim_data	*sim_data;
+	
+	// pthread_mutex_t last_meal_mutex;
+	
 }	t_philosopher;
 
 /* -------------------------- utils.c ------------------------- */
