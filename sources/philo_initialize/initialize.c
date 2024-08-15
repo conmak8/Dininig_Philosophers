@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 03:52:40 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/14 23:31:13 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/15 02:56:14 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ int	initialize_data(int argc, char **argv, t_sim_data *data)
 		data->required_meals = (int)ft_atoll(argv[5]);
 	else
 		data->required_meals = -1;
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0 || pthread_mutex_init(&data->stop_mutex, NULL) != 0 \
-	|| pthread_mutex_init(&data->last_meal_mutex, NULL) != 0 || pthread_mutex_init(&data->start_mutex, NULL) != 0) 
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0 || \
+	pthread_mutex_init(&data->stop_mutex, NULL) != 0 \
+	|| pthread_mutex_init(&data->last_meal_mutex, NULL) != 0 || \
+	pthread_mutex_init(&data->start_mutex, NULL) != 0)
 	{
-		return (printf("Mutex initialization failed\n"), 0); //--------------pthread_mutex_destroy(&data->forks[i]) i don't need thiss
+		return (printf("Mutex initialization failed\n"), 0);
 	}
 	data->stop_simulation = 0;
 	data->start_time = get_current_time();
@@ -61,23 +63,19 @@ int	init_philo_in(int i, t_sim_data *data)
 	data->philosophers[i].id = i + 1;
 	data->philosophers[i].meals_count = 0;
 	data->philosophers[i].finished = 0;
-	// data->philosophers[i].is_eating = false;
 	if (data->philosophers[i].id % 2 == 0)
 	{
-	// {right_fork
 		data->philosophers[i].right_fork = i;
-		data->philosophers[i].left_fork  = (i + 1) % data->num_philosophers;
+		data->philosophers[i].left_fork = (i + 1) % data->num_philosophers;
 	}
 	else
 	{
 		data->philosophers[i].right_fork = (i + 1) % data->num_philosophers;
 		data->philosophers[i].left_fork = i;
 	}
-	// data->philosophers[i].last_meal_time = get_current_time() + data->death_time;
 	data->philosophers[i].last_meal_time = get_current_time();
 	data->philosophers[i].sim_data = data;
-	if (pthread_mutex_init(&data->forks[i], NULL) != 0 )
-	// || pthread_mutex_init(&data->philosophers[i].last_meal_mutex, NULL) != 0 )
+	if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 	{
 		printf("Mutex initialization failed for fork %d\n", i);
 		return (ft_cleanup(data), 0);
@@ -87,9 +85,6 @@ int	init_philo_in(int i, t_sim_data *data)
 
 void	ft_cleanup(t_sim_data *data)
 {
-	int	i;
-
-	i = 0;
 	if (data->philosophers)
 		free(data->philosophers);
 	if (data->forks)
@@ -97,10 +92,5 @@ void	ft_cleanup(t_sim_data *data)
 	pthread_mutex_destroy(&data->print_mutex);
 	pthread_mutex_destroy(&data->stop_mutex);
 	pthread_mutex_destroy(&data->last_meal_mutex);
-	while (i < data->num_philosophers)
-	{
-		// pthread_mutex_destroy(&data->philosophers[i].last_meal_mutex);
-		// pthread_mutex_destroy(&data->forks[i]); // --------------- DO i need this one??
-		i++;
-	}
+	pthread_mutex_destroy(&data->start_mutex);
 }

@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:42:24 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/15 00:46:46 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/15 03:22:22 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,97 +20,33 @@ void	single_philosopher_routine(t_philosopher *philosopher)
 	pthread_mutex_lock(&philosopher->sim_data->last_meal_mutex);
 	philosopher->last_meal_time = get_current_time();
 	pthread_mutex_unlock(&philosopher->sim_data->last_meal_mutex);
-	
 	pthread_mutex_unlock \
 	(&philosopher->sim_data->forks[philosopher->right_fork]);
 }
 
-void philosopher_eat(t_philosopher *philosopher) {
-    int left_fork = philosopher->left_fork;
-    int right_fork = philosopher->right_fork;
-	
-    // Ensure forks are locked in a consistent order
-    if (left_fork < right_fork) {
-    // if (philosopher->id % 2 != 0) {
-        pthread_mutex_lock(&philosopher->sim_data->forks[left_fork]);
-        log_status(philosopher, "has taken a fork");
-        pthread_mutex_lock(&philosopher->sim_data->forks[right_fork]);
-    } else {
-        pthread_mutex_lock(&philosopher->sim_data->forks[right_fork]);
-        log_status(philosopher, "has taken a fork");
-        pthread_mutex_lock(&philosopher->sim_data->forks[left_fork]);
-    }
-	// philosopher->is_eating = true;
-    log_status(philosopher, "has taken a fork");
-	
-    pthread_mutex_lock(&philosopher->sim_data->last_meal_mutex);
-    // philosopher->last_meal_time = get_current_time() + philosopher->sim_data->death_time;
-    philosopher->last_meal_time = get_current_time();
-	// printf("-------------get current time ------- %lld\n",(get_current_time()));
-    pthread_mutex_unlock(&philosopher->sim_data->last_meal_mutex);
-    log_status(philosopher, "is eating");
-    ft_msleep(philosopher->sim_data->eating_time);
-
-    // Unlock in reverse order of locking
-    if (left_fork < right_fork) {
-	// if (philosopher->id % 2 != 0) {
-        pthread_mutex_unlock(&philosopher->sim_data->forks[right_fork]);
-        pthread_mutex_unlock(&philosopher->sim_data->forks[left_fork]);
-    } else {
-        pthread_mutex_unlock(&philosopher->sim_data->forks[right_fork]);
-        pthread_mutex_unlock(&philosopher->sim_data->forks[left_fork]);
-    }
-	// philosopher->is_eating = false;
-
-	
-    if (philosopher->sim_data->required_meals > 0)
+void	philosopher_eat(t_philosopher *philosopher)
+{
+	pthread_mutex_lock(&philosopher->sim_data->forks[philosopher->left_fork]);
+	log_status(philosopher, "has taken a fork");
+	pthread_mutex_lock(&philosopher->sim_data->forks[philosopher->right_fork]);
+	log_status(philosopher, "has taken a fork");
+	pthread_mutex_lock(&philosopher->sim_data->last_meal_mutex);
+	philosopher->last_meal_time = get_current_time();
+	pthread_mutex_unlock(&philosopher->sim_data->last_meal_mutex);
+	log_status(philosopher, "is eating");
+	ft_msleep(philosopher->sim_data->eating_time);
+	pthread_mutex_unlock
+		(&philosopher->sim_data->forks[philosopher->right_fork]);
+	pthread_mutex_unlock(&philosopher->sim_data->forks[philosopher->left_fork]);
+	if (philosopher->sim_data->required_meals > 0)
 	{
 		pthread_mutex_lock(&philosopher->sim_data->last_meal_mutex);
-        philosopher->meals_count++;
+		philosopher->meals_count++;
 		pthread_mutex_unlock(&philosopher->sim_data->last_meal_mutex);
 	}
 }
 
-// void philosopher_eat(t_philosopher *philosopher) {
-// 	int left_fork = philosopher->left_fork;
-// 	int right_fork = philosopher->right_fork;
-// 	int lower_fork, higher_fork;
-
-// 	// Determine the lower and higher numbered forks
-// 	if (left_fork < right_fork) {
-// 		lower_fork = left_fork;
-// 		higher_fork = right_fork;
-// 	} else {
-// 		lower_fork = right_fork;
-// 		higher_fork = left_fork;
-// 	}
-
-// 	// Lock the lower numbered fork first
-// 	pthread_mutex_lock(&philosopher->sim_data->forks[lower_fork]);
-// 	log_status(philosopher, "has taken a fork");
-// 	pthread_mutex_lock(&philosopher->sim_data->forks[higher_fork]);
-// 	log_status(philosopher, "has taken a fork");
-
-// 	// Eating process
-// 	pthread_mutex_lock(&philosopher->last_meal_mutex);
-// 	philosopher->last_meal_time = get_current_time();
-// 	pthread_mutex_unlock(&philosopher->last_meal_mutex);
-// 	log_status(philosopher, "is eating");
-// 	ft_msleep(philosopher->sim_data->eating_time);
-
-// 	// Unlock in reverse order
-// 	pthread_mutex_unlock(&philosopher->sim_data->forks[higher_fork]);
-// 	pthread_mutex_unlock(&philosopher->sim_data->forks[lower_fork]);
-
-// 	// Post-eating process
-// 	if (philosopher->sim_data->required_meals > 0) {
-// 		pthread_mutex_lock(&philosopher->last_meal_mutex);
-// 		philosopher->meals_count++;
-// 		pthread_mutex_unlock(&philosopher->last_meal_mutex);
-// 	}
-// }
-
-int stop_simulation(t_sim_data *data)
+int	stop_simulation(t_sim_data *data)
 {
 	pthread_mutex_lock(&data->stop_mutex);
 	if (data->stop_simulation == 1)
@@ -124,45 +60,36 @@ void	*philosopher_routine(void *arg)
 	t_philosopher	*philosopher;
 
 	philosopher = (t_philosopher *)arg;
-	
 	pthread_mutex_lock(&philosopher->sim_data->start_mutex);
 	philosopher->sim_data->ready_threads++;
 	pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
-	
 	while (1)
 	{
 		pthread_mutex_lock(&philosopher->sim_data->start_mutex);
-		if (philosopher->sim_data->ready_threads == philosopher->sim_data->num_philosophers)
+		if (philosopher->sim_data->ready_threads == \
+			philosopher->sim_data->num_philosophers)
 		{
 			pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
 		usleep(100);
 	}
-	// if (philosopher->id == philosopher->sim_data->num_philosophers)
-	// 	pthread_mutex_unlock(&philosopher->sim_data->start_mutex);
-		
-	// pthread_mutex_lock(&philosopher->sim_data->start_mutex);
 	if (philosopher->sim_data->num_philosophers == 1)
 		return (single_philosopher_routine(philosopher), NULL);
-		
+	routine_loop_in(philosopher);
+	return (NULL);
+}
 
+void	routine_loop_in(t_philosopher *philosopher)
+{
 	if (philosopher->id % 2 != 0)
 	{
 		log_status(philosopher, "is thinking");
-		ft_msleep(philosopher->sim_data->eating_time / 2); //---------- evala / 2 like mk
+		ft_msleep(philosopher->sim_data->eating_time / 2);
 	}
-	
 	while (!stop_simulation(philosopher->sim_data))
 	{
-		// pthread_mutex_lock(&philosopher->sim_data->stop_mutex);
-		// if (philosopher->sim_data->stop_simulation)
-		// 	return (pthread_mutex_unlock(&philosopher->sim_data->stop_mutex), NULL);
-		// pthread_mutex_unlock(&philosopher->sim_data->stop_mutex);
-		// if (philosopher->meals_count >= philosopher->sim_data->required_meals && 
-		// 	philosopher->sim_data->required_meals != -1)
-		// 	break;
 		philosopher_eat(philosopher);
 		if (stop_simulation(philosopher->sim_data))
 			break ;
@@ -171,9 +98,8 @@ void	*philosopher_routine(void *arg)
 		if (stop_simulation(philosopher->sim_data))
 			break ;
 		log_status(philosopher, "is thinking");
-		if(philosopher->sim_data->num_philosophers % 2 != 0)
-			ft_msleep(2 * philosopher->sim_data->eating_time - philosopher->sim_data->sleeping_time);
+		if (philosopher->sim_data->num_philosophers % 2 != 0)
+			ft_msleep(2 * philosopher->sim_data->eating_time
+				- philosopher->sim_data->sleeping_time);
 	}
-	
-	return (NULL);
 }
