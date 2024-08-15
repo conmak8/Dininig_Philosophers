@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 03:52:40 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/15 02:56:14 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:43:17 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,4 @@ int	init_philo_in(int i, t_sim_data *data)
 		return (ft_cleanup(data), 0);
 	}
 	return (1);
-}
-
-void	ft_cleanup(t_sim_data *data)
-{
-	if (data->philosophers)
-		free(data->philosophers);
-	if (data->forks)
-		free(data->forks);
-	pthread_mutex_destroy(&data->print_mutex);
-	pthread_mutex_destroy(&data->stop_mutex);
-	pthread_mutex_destroy(&data->last_meal_mutex);
-	pthread_mutex_destroy(&data->start_mutex);
 }

@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/15 04:49:33 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:54:24 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,49 @@ typedef struct s_philosopher
 	long long			last_meal_time;
 	struct s_sim_data	*sim_data;
 }						t_philosopher;
-/* -------------------------- utils.c ------------------------- */
 
-size_t		ft_strlen(const char *s);
-int			print_error(char *msg);
-int			is_valid_number(char *str);
-bool		input_is_valid(int argc, char **argv);
-long long	ft_atoll(const char *str);
-int			ft_isdigit(int a);
-int			initialize_data(int argc, char **argv, t_sim_data *data);
-void		*philosopher_routine(void *arg);
-void		log_status(t_philosopher *philosopher, char *status);
+/* -------------------------- philo_actions ------------------------- */
 
-int			launch_threads(t_sim_data *data, t_philosopher *philosophers);
-long long	get_current_time(void);
-void		*monitor_philosophers(void *arg);
-int			init_philoshopers(t_sim_data *data);
-int			init_philo_in(int i, t_sim_data *data);
-void		ft_msleep(long long msec);
-void		ft_cleanup(t_sim_data *data);
+/* ------- routinses.c -------- */
+void		single_philosopher_routine(t_philosopher *philosopher);
+void		philosopher_eat(t_philosopher *philosopher);
 int			stop_simulation(t_sim_data *data);
+void		*philosopher_routine(void *arg);
 void		routine_loop_in(t_philosopher *philosopher);
+
+/* ------- supervisor.c -------- */
 bool		monitor_meals_in_1(t_sim_data *data, int i, \
-			int *philos_finished_meals);
+								int *philos_finished_meals);
 void		mon_lock_meal_2(t_sim_data *data, int i, long long	*last_meal);
 void		mon_lock_meal_3(t_sim_data *data, int i);
+void		*monitor_philosophers(void *arg);
+
+/* -------------------------- philo_initialize ------------------------- */
+
+/* ------- args_validation.c -------- */
+bool		input_is_valid(int argc, char **argv);
+
+/* ------- initialize.c -------- */
+int			initialize_data(int argc, char **argv, t_sim_data *data);
+int			init_philoshopers(t_sim_data *data);
+int			init_philo_in(int i, t_sim_data *data);
+
+/* ------- threads.c -------- */
+int			launch_threads(t_sim_data *data, t_philosopher *philosophers);
+
+/* -------------------------- philo_utils ------------------------- */
+
+/* ------- utils1.c -------- */
+long long	get_current_time(void);
+int			ft_isdigit(int a);
+long long	ft_atoll(const char *str);
+int			is_valid_number(char *str);
+size_t		ft_strlen(const char *s);
+
+/* ------- utils2.c -------- */
+int			print_error(char *msg);
+void		log_status(t_philosopher *philosopher, char *status);
+void		ft_msleep(long long msec);
+void		ft_cleanup(t_sim_data *data);
 
 #endif // PHILO_H
