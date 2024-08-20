@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:02:34 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/15 02:12:31 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/20 05:51:35 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	launch_threads(t_sim_data *data, t_philosopher *philosophers)
 	while (i < data->num_philosophers)
 	{
 		if (pthread_create(&philosophers[i].thread_id, NULL, \
-		&philosopher_routine, &philosophers[i]) != 0)
+		&philosopher_routine, data->philosophers + i) != 0)
 			return (print_error("Failed to create philosopher thread"), 0);
 		i++;
 	}

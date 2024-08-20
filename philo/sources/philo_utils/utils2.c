@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:41:08 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/15 14:40:48 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/20 05:53:19 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,17 @@ void	log_status(t_philosopher *philosopher, char *status)
 	pthread_mutex_unlock(&philosopher->sim_data->print_mutex);
 }
 
-void	ft_msleep(long long msec)
+void	ft_msleep(long long msec, t_philosopher *philosopher)
 {
 	long long	start;
 
 	start = get_current_time();
 	while ((get_current_time() - start) < msec)
+	{
+		if (stop_simulation(philosopher->sim_data))
+			break ;
 		usleep(200);
+	}
 }
 
 void	ft_cleanup(t_sim_data *data)

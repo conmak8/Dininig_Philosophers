@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:31:17 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/15 14:54:24 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/20 05:15:12 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ size_t		ft_strlen(const char *s);
 /* ------- utils2.c -------- */
 int			print_error(char *msg);
 void		log_status(t_philosopher *philosopher, char *status);
-void		ft_msleep(long long msec);
+void		ft_msleep(long long msec, t_philosopher *philosopher);
 void		ft_cleanup(t_sim_data *data);
 
 #endif // PHILO_H

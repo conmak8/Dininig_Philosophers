@@ -6,7 +6,7 @@
 /*   By: cmakario <cmakario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:42:24 by cmakario          #+#    #+#             */
-/*   Updated: 2024/08/15 03:22:22 by cmakario         ###   ########.fr       */
+/*   Updated: 2024/08/20 05:53:06 by cmakario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	philosopher_eat(t_philosopher *philosopher)
 	philosopher->last_meal_time = get_current_time();
 	pthread_mutex_unlock(&philosopher->sim_data->last_meal_mutex);
 	log_status(philosopher, "is eating");
-	ft_msleep(philosopher->sim_data->eating_time);
+	ft_msleep(philosopher->sim_data->eating_time, philosopher);
 	pthread_mutex_unlock
 		(&philosopher->sim_data->forks[philosopher->right_fork]);
 	pthread_mutex_unlock(&philosopher->sim_data->forks[philosopher->left_fork]);
@@ -86,7 +86,7 @@ void	routine_loop_in(t_philosopher *philosopher)
 	if (philosopher->id % 2 != 0)
 	{
 		log_status(philosopher, "is thinking");
-		ft_msleep(philosopher->sim_data->eating_time / 2);
+		ft_msleep(philosopher->sim_data->eating_time / 2, philosopher);
 	}
 	while (!stop_simulation(philosopher->sim_data))
 	{
@@ -94,12 +94,12 @@ void	routine_loop_in(t_philosopher *philosopher)
 		if (stop_simulation(philosopher->sim_data))
 			break ;
 		log_status(philosopher, "is sleeping");
-		ft_msleep(philosopher->sim_data->sleeping_time);
+		ft_msleep(philosopher->sim_data->sleeping_time, philosopher);
 		if (stop_simulation(philosopher->sim_data))
 			break ;
 		log_status(philosopher, "is thinking");
 		if (philosopher->sim_data->num_philosophers % 2 != 0)
 			ft_msleep(2 * philosopher->sim_data->eating_time
-				- philosopher->sim_data->sleeping_time);
+				- philosopher->sim_data->sleeping_time, philosopher);
 	}
 }
